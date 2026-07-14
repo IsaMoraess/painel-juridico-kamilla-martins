@@ -54,26 +54,31 @@ def trocar_propria_senha(session, usuario_id, senha_atual, nova_senha):
     return True, "Senha alterada com sucesso."
 
 
-def caixa_trocar_senha():
+@st.dialog("🔑 Trocar senha")
+def _dialog_trocar_senha():
     usuario = usuario_logado()
-    with st.expander("🔑 Trocar senha"):
-        with st.form("trocar_senha", clear_on_submit=True):
-            senha_atual = st.text_input("Senha atual", type="password")
-            nova_senha = st.text_input("Nova senha", type="password")
-            confirmar = st.text_input("Confirmar nova senha", type="password")
-            enviado = st.form_submit_button("Salvar nova senha")
+    with st.form("trocar_senha"):
+        senha_atual = st.text_input("Senha atual", type="password")
+        nova_senha = st.text_input("Nova senha", type="password")
+        confirmar = st.text_input("Confirmar nova senha", type="password")
+        enviado = st.form_submit_button("Salvar nova senha")
 
-        if enviado:
-            if nova_senha != confirmar:
-                st.error("As senhas não coincidem.")
+    if enviado:
+        if nova_senha != confirmar:
+            st.error("As senhas não coincidem.")
+        else:
+            session = get_session()
+            ok, mensagem = trocar_propria_senha(session, usuario["id"], senha_atual, nova_senha)
+            session.close()
+            if ok:
+                st.success(mensagem)
             else:
-                session = get_session()
-                ok, mensagem = trocar_propria_senha(session, usuario["id"], senha_atual, nova_senha)
-                session.close()
-                if ok:
-                    st.success(mensagem)
-                else:
-                    st.error(mensagem)
+                st.error(mensagem)
+
+
+def caixa_trocar_senha():
+    if st.button("🔑 Trocar senha", use_container_width=True):
+        _dialog_trocar_senha()
 
 
 def _tela_bootstrap(session):
