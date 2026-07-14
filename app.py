@@ -2,7 +2,7 @@ import os
 
 import streamlit as st
 
-from auth import eh_admin, logout, usuario_logado
+from auth import caixa_trocar_senha, eh_admin, logout, usuario_logado
 from db import get_session, init_db
 from style import apply_style
 from utils import contar_prazos_vencendo
@@ -25,6 +25,7 @@ if not _usuario:
 with st.sidebar:
     st.markdown(f"**{_usuario['nome']}**")
     st.caption("Administrador" if eh_admin() else "Usuário padrão")
+    caixa_trocar_senha()
     if st.button("Sair", use_container_width=True):
         logout()
     st.divider()

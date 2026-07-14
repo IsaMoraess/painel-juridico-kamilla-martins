@@ -43,6 +43,39 @@ def logout():
     st.rerun()
 
 
+def trocar_propria_senha(session, usuario_id, senha_atual, nova_senha):
+    registro = session.get(Usuario, usuario_id)
+    if not registro or not verificar_senha(senha_atual, registro.senha_hash):
+        return False, "Senha atual incorreta."
+    if len(nova_senha) < 6:
+        return False, "Use uma senha nova com pelo menos 6 caracteres."
+    registro.senha_hash = hash_senha(nova_senha)
+    session.commit()
+    return True, "Senha alterada com sucesso."
+
+
+def caixa_trocar_senha():
+    usuario = usuario_logado()
+    with st.expander("🔑 Trocar senha"):
+        with st.form("trocar_senha", clear_on_submit=True):
+            senha_atual = st.text_input("Senha atual", type="password")
+            nova_senha = st.text_input("Nova senha", type="password")
+            confirmar = st.text_input("Confirmar nova senha", type="password")
+            enviado = st.form_submit_button("Salvar nova senha")
+
+        if enviado:
+            if nova_senha != confirmar:
+                st.error("As senhas não coincidem.")
+            else:
+                session = get_session()
+                ok, mensagem = trocar_propria_senha(session, usuario["id"], senha_atual, nova_senha)
+                session.close()
+                if ok:
+                    st.success(mensagem)
+                else:
+                    st.error(mensagem)
+
+
 def _tela_bootstrap(session):
     st.title("⚖️ Painel Jurídico")
     st.subheader("Primeiro acesso — crie a conta de administrador")
