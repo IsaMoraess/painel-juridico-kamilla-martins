@@ -53,5 +53,6 @@ paginas = [
 
 if eh_admin():
     paginas.append(st.Page("pages/11_Usuarios.py", title="Usuários", icon="👤"))
+    paginas.append(st.Page("pages/12_Importar_Dados.py", title="Importar Dados", icon="⬆️"))
 
 st.navigation(paginas).run()
