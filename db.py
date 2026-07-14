@@ -6,8 +6,21 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 load_dotenv()
 
+
+def _obter_database_url():
+    valor = os.getenv("DATABASE_URL")
+    if valor:
+        return valor
+    try:
+        import streamlit as st
+
+        return st.secrets["DATABASE_URL"]
+    except Exception:
+        return None
+
+
 _DEFAULT_SQLITE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dash_juridico.db")
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{_DEFAULT_SQLITE_PATH}")
+DATABASE_URL = _obter_database_url() or f"sqlite:///{_DEFAULT_SQLITE_PATH}"
 
 engine = create_engine(DATABASE_URL, echo=False)
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
