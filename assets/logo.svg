@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" width="260" height="60">
+  <g fill="none" stroke="#C9A227" stroke-width="2.2" stroke-linecap="round">
+    <line x1="30" y1="10" x2="30" y2="44" />
+    <line x1="14" y1="16" x2="46" y2="16" />
+    <path d="M14 16 L6 30 A8 8 0 0 0 22 30 Z" />
+    <path d="M46 16 L38 30 A8 8 0 0 0 54 30 Z" />
+    <line x1="18" y1="46" x2="42" y2="46" />
+  </g>
+  <text x="66" y="30" font-family="Georgia, 'Times New Roman', serif" font-size="21" letter-spacing="2" fill="#F5EFE0">KAMILLA MARTINS</text>
+  <text x="66" y="46" font-family="Georgia, serif" font-size="9" letter-spacing="3" fill="#C9A227">ADVOCACIA E CONSULTORIA JURÍDICA</text>
+</svg>
